@@ -22,6 +22,36 @@ document.querySelectorAll("[data-placeholder-link]").forEach((link) => {
   });
 });
 
+const appApkUrl =
+  "https://github.com/ghidawileer-bit/paloma-roja-pr-updates/releases/download/v1.0.11-build12/paloma-roja-pr-latest.apk";
+const appWebUrl = "https://paloma-roja-reda-20260422.web.app";
+
+const userAgent = navigator.userAgent || navigator.vendor || "";
+const isAndroid = /Android/i.test(userAgent);
+const isIOS =
+  /iPhone|iPad|iPod/i.test(userAgent) ||
+  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+document.querySelectorAll("[data-app-download]").forEach((link) => {
+  const destination = isAndroid ? appApkUrl : appWebUrl;
+  const label = isAndroid
+    ? "Telecharger l'application Android"
+    : isIOS
+      ? "Ouvrir l'application web"
+      : "Ouvrir la web app";
+
+  link.setAttribute("href", destination);
+  link.setAttribute("target", "_blank");
+  link.setAttribute("rel", "noopener");
+  link.textContent = label;
+
+  if (isAndroid) {
+    link.setAttribute("download", "paloma-roja-pr-latest.apk");
+  } else {
+    link.removeAttribute("download");
+  }
+});
+
 const budgetForm = document.querySelector("[data-budget-form]");
 if (budgetForm) {
   const packageGrid = budgetForm.querySelector("[data-package-grid]");
